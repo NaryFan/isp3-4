@@ -1,48 +1,117 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .models import Task
-from .forms import TaskForm
-from .forms import TaskForm, CreateUserForm
-from django.contrib.auth.forms import UserCreationForm
+from .models import *
+from .forms import DishesForm, CreateUserForm
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+import logging
+import asyncio
+from asgiref.sync import sync_to_async
 
 
+logger = logging.getLogger('main')
+
+
+def home(request):
+    logger.info("Good work")
+    return render(request, 'main/home_page2.html', {'title': 'О готовке'})
+
+
+@login_required(login_url='login_page')
 def index(request):
-    tasks = Task.objects.order_by('-id')  # получаем все оъекты из класса
-    return render(request, 'main/home.html', {'title': 'О готовке', 'tasks': tasks})
-
-
+    return render(request, 'main/home.html', {'title': 'О готовке'})
+@login_required(login_url='login_page')
 def about(request):
     return render(request, 'main/about.html')
-
+@login_required(login_url='login_page')
 def create(request):
     error = ''
     if request.method == 'POST':
-        form = TaskForm(request.POST)
+        form = DishesForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('home')
+            logger.info("Dishes was created successfully!")
+            return redirect('menu_page')
         else:
-            error = 'Форма была неверной'
+            logger.error("The form is filled out incorrectly")
+            error = 'Форма заполнения была неверной'
 
-    form = TaskForm()
+    form = DishesForm()
     context = {
         'form': form,
         'error': error
     }
     return render(request, 'main/create.html', context)
-
-def register(request):
-
+def update(request, pk):
+    dish = Dishes.objects.get(id=pk)
+    form = DishesForm(instance=dish)
     if request.method == 'POST':
-        form = CreateUserForm(request.POST)
+        form = DishesForm(request.POST, instance=dish)
         if form.is_valid():
             form.save()
-    else:
-        form = CreateUserForm()
+            return redirect('menu_page')
+        else:
+            error = 'Форма была неверной'
+    context = {
+        'form': form
+    }
+    return render(request, 'main/change_dish.html', context)
 
+
+@sync_to_async
+def get_dishes_id(pk):
+    dish = Dishes.objects.get(id=pk)
+    return dish
+
+
+def delete(request, pk):
+    dish = Dishes.objects.get(id=pk)
+    if request.method == 'POST':
+        dish.delete()
+        return redirect('menu_page')
+    context = {
+        'form': dish
+    }
+    return render(request, 'main/menu_page.html', context)
+def register(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+    else:
+        if request.method == 'POST':
+            form = CreateUserForm(request.POST)
+            if form.is_valid():
+                form.save()
+            return redirect('popup_window')
+        else:
+            form = CreateUserForm()
     contex = {'form': form}
     return render(request, 'main/register_page.html', contex)
+"""Проверка набора учета данных с authenticate"""
+def loginpage(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+    else:
+     if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            """с помощью метода login и выполняется вход """
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.info(request, 'Пароль или имя пользователя был введён неправильно!')
+     contex = {}
+     return render(request, 'main/login_page.html', contex)
+def logout_user(request):
+    logout(request)
+    return redirect('login_page')
+def popup(request):
+    return render(request, 'main/popup_window.html')
 
 
-def login(request):
-    contex = {}
-    return render(request, 'main/login_page.html', contex)
+@login_required(login_url='login_page')
+def menu(request):
+    dishes = Dishes.objects.order_by('-id')  # получаем все оъекты из класса
+    return render(request, 'main/menu_page.html', {'dishes': dishes})
