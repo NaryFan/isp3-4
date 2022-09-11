@@ -1,0 +1,35 @@
+{% extends 'main/base.html' %}
+{% block title %}
+Изменить блюдо
+{% endblock %}
+
+
+{% block something %}
+    <h1 class="display-5 fw-bold">Изменить блюдо</h1>
+    <form method = "POST">
+        {% csrf_token %}
+         <h6>Выберите категорию для блюда</h6>
+        {{ form.category_id }}<br><br>
+        <h6>Название для блюда</h6>
+        {{ form.nameofdishes }}<br>
+        <h6>Описание блюды</h6>
+        {{ form.description }}<br>
+        <h6>Как готовить</h6>
+        {{ form.howTOcook }}<br>
+        <div class="row">
+            <div class="col-md-20">
+                 <button type="submit" class="btn btn-success"><i class="fa fa-arrow-right"></i>
+                     <i class="fa-solid fa-database"></i>  Изменить</button>
+            </div>
+            <div >
+                <br />
+            <a href="{% url 'menu_page' %}" class="btn btn-secondary btn-block btn-lg">
+                <i class="fas fa-stream">
+                </i> Вернуться к меню
+            </a>
+        </div>
+        </div>
+
+        <span>{{ error }}</span>
+    </form>
+{% endblock %}

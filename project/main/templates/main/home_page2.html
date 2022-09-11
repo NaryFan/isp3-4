@@ -1,0 +1,59 @@
+{% extends 'main/base2.html' %}
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block something %}
+
+<style>
+    .rainbow-animated {
+  background: linear-gradient(to right, red, orange, yellow, green, cyan, blue, violet);
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-animation: rainbow 20s ease infinite;
+  animation: rainbow 20s ease infinite;
+  font-size: 25px;
+  line-height: 25px;
+}
+
+@-webkit-keyframes rainbow {
+  0% { background-position: 0% 50% }
+  50% { background-position: 100% 50% }
+  100% { background-position: 0% 50% }
+}
+
+@keyframes rainbow {
+  0% { background-position: 0% 50% }
+  50% { background-position: 100% 50% }
+  100% { background-position: 0% 50% }
+}
+
+
+</style>
+
+
+
+<span class="rainbow-animated">Добро пожаловать в наш вкусный мир!  <img src="https://cdn-icons.flaticon.com/png/256/5754/premium/5754607.png?token=exp=1653826818~hmac=975b3084e5879405bb1996032432c1db" alt="" width="60" height="60"></span>
+        <br />
+        <img class="d-block mx-auto mb-2" src="https://varim-na-paru.ru/wp-content/uploads/2019/04/cooking.jpg" alt="" width="435" height="300">
+    <h1 class="display-5 fw-bold">Кулинария</h1>
+    <div class="col-lg-6 mx-auto">
+      <p class="lead mb-4">На этом сайте про готовку вы сможете найти много вкусных
+      блюд с рецептами от лучших поваров с разных стран мира и фото блюд, прикреплённое к ним. Тем самым он облегчит вам
+      жизнь и сэкономит драгоценное время!</p>
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+          <form>
+              {% csrf_token %}
+              <button type="submit" class="btn btn-primary btn-lg px-4 gap-3"><a style="text-decoration: none; color: #ffffff", >Начать читать</a></button>
+              <h3>Для того, чтобы начать пользоваться нашим сайтом нужно войти в свой аккаунт</h3>
+              <button type="button" class="btn btn-outline-secondary btn-lg px-4"><a href="{% url 'logout_user' %}" style="text-decoration: none; color: grey">Войти</a></button>
+          </form>
+      </div>
+    </div>
+  </div>
+
+
+
+
+{% endblock %}

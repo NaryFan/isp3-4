@@ -3,7 +3,6 @@ from django.conf.urls.static import static
 from django.urls import path
 from . import views
 
-
 urlpatterns = [
     path('home', views.index, name='home'),
     path('About-us', views.about, name='about'),
@@ -20,5 +19,5 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
-        urlpatterns += static(settings.MEDIA_URL,
-                              document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
