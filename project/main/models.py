@@ -18,5 +18,5 @@ class Dishes(models.Model):
     category_id = models.ForeignKey(Categories, on_delete=models.CASCADE)
 
 
-    def __str__(self): #вывод объекта класса на экран
-        return self.nameofdishes
+def __str__(self):  #вывод объекта класса на экран
+    return self.nameofdishes

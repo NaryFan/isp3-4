@@ -4,8 +4,34 @@
 {% endblock %}
 
 {% block something %}
+
+<style>
+    .rainbow-animated {
+  background: linear-gradient(to right, red, orange, yellow, green, cyan, blue, violet);
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-animation: rainbow 20s ease infinite;
+  animation: rainbow 20s ease infinite;
+  font-size: 25px;
+  line-height: 25px;
+}
+
+@-webkit-keyframes rainbow {
+  0% { background-position: 0% 50% }
+  50% { background-position: 100% 50% }
+  100% { background-position: 0% 50% }
+}
+
+@keyframes rainbow {
+  0% { background-position: 0% 50% }
+  50% { background-position: 100% 50% }
+  100% { background-position: 0% 50% }
+}
+</style>
+<span class="rainbow-animated">Добро пожаловать в наш вкусный мир, {{request.user}}!  <img src="http://sun9-31.userapi.com/impf/c831109/v831109862/4ca60/9AXF6UiMY78.jpg?size=604x604&quality=96&sign=4f1918829e15f45e81900e45994b3f0f&type=album" alt="" width="60" height="60"></span>
         <br />
-        <img class="d-block mx-auto mb-2" src="https://varim-na-paru.ru/wp-content/uploads/2019/04/cooking.jpg" alt="" width="435" height="300">
+        <img class="d-block mx-auto mb-2" src="https://i.ytimg.com/vi/p94QPaI4SxE/mqdefault.jpg" alt="" width="435" height="300">
     <h1 class="display-5 fw-bold">Кулинария</h1>
     <div class="col-lg-6 mx-auto">
       <p class="lead mb-4">На этом сайте про готовку вы сможете найти много вкусных
@@ -15,9 +41,9 @@
           <form>
               {% csrf_token %}
               <button type="submit" class="btn btn-primary btn-lg px-4 gap-3"><a href="#PUSTOTA" style="text-decoration: none; color: #ffffff", >Начать читать</a></button>
-              <button type="button" class="btn btn-outline-secondary btn-lg px-4">Выйти</button>
+              <button type="button" class="btn btn-outline-secondary btn-lg px-4"><a href="{% url 'home_page2' %}" style="text-decoration: none; color: grey">Выйти</a></button>
           </form>
-          <br /> <br /> <br /> <br /> <br /> <br />
+          <br /> <br /> <br /> <br />
       </div>
     </div>
   </div>
@@ -70,18 +96,6 @@
  </p>
 <div class="emoji">ЖЕЛАЕМ ВАМ УСПЕХОВ❣️</div>
 
-
-    {% if tasks %}
-     {% for element in tasks %}
-<div class = "alert alert-warning mt-2">
-     <h3>{{ element.nameofdishes }}</h3>
-    <img class="d-block mx-auto mb-2" src="https://alfagym.ru/wp-content/uploads/c/9/5/c95076cdea3af7f42badab64d139f3ea.jpeg" alt="" width="500" height="300">
-    <p>{{ element.task }}</p>
-</div>
-     {% endfor %}
-{% else %}
-      <p>У нас нет записей</p>
-{% endif %}
 {% endblock %}
 
 

@@ -13,13 +13,15 @@
 			margin: 0;
 			padding: 0;
 			height: 100%;
-			background: #98FB98 !important;
+			background-image: url(https://kartinkin.net/uploads/posts/2021-07/1625216537_15-kartinkin-com-p-fon-dlya-kinemastera-krasivie-foni-17.jpg);
+            background-size: 1550px 750px;
 		}
 		.user_card {
 			width: 450px;
 			margin-top: auto;
 			margin-bottom: auto;
-			background: #3CB371 ;
+			background-image: url(https://catherineasquithgallery.com/uploads/posts/2021-02/1612790974_82-p-goluboi-meditsinskii-fon-118.jpg);
+			background-size: 400px 400px;
 			position: relative;
 			display: flex;
 			justify-content: center;
@@ -103,11 +105,12 @@
 						</div>
 
 				   		<div class="d-flex justify-content-center mt-3 login_container">
-				 			<input class="btn login_btn" type="submit" value="Register Account">
+				 			<input class="btn login_btn" type="submit" value="Зарегистрировать аккаунт">
+
 				   		</div>
 					</form>
 				</div>
-
+                    {{ form.errors }}
 				<div class="mt-4">
 					<div class="d-flex justify-content-center links">
 						Уже есть аккаунт? <a href="{% url 'login_page' %}" class="ml-2" style="text-decoration: none; color: #0000CD">Войти</a>
@@ -128,5 +131,6 @@
 			form_fields[field].className += ' form-control'
 		}
 	</script>
+
 </body>
 </html>

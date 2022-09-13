@@ -1,5 +1,6 @@
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_exempt
+
 from .models import *
 from .forms import DishesForm, CreateUserForm
 from django.contrib.auth import authenticate, login, logout
@@ -8,7 +9,6 @@ from django.contrib.auth.decorators import login_required
 import logging
 import asyncio
 from asgiref.sync import sync_to_async
-
 
 logger = logging.getLogger('main')
 
@@ -61,6 +61,8 @@ def update(request, pk):
         else:
             logger.error("Форма заполнения была неверной")
             error = 'Форма была неверной'
+
+
     context = {
         'form': form
     }
@@ -105,7 +107,7 @@ def register(request):
 
 """Проверка набора учета данных с authenticate"""
 
-
+@csrf_exempt
 def loginpage(request):
     if request.user.is_authenticated:
         return redirect('home')
@@ -127,7 +129,6 @@ def loginpage(request):
 
      contex = {}
      return render(request, 'main/login_page.html', contex)
-
 
 def logout_user(request):
     logout(request)
